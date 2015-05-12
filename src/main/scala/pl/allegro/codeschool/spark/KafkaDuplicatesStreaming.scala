@@ -10,8 +10,8 @@ object Settings {
   val windowSize = Seconds(60)
 }
 
-object KafkaDuplicates extends App {
-  val sc = new SparkContext("local[8]", "wiki-spark-app")
+object KafkaDuplicatesStreaming extends App {
+  val sc = new SparkContext("local[8]", "my-spark-streaming-app")
   sc.setCheckpointDir("output/checkpointy")
 
   val ssc: StreamingContext = new StreamingContext(sc, Settings.duration)

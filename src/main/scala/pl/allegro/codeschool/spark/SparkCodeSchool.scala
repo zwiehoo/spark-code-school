@@ -8,12 +8,16 @@ object SparkCodeSchool extends App {
 
   val input = sc.textFile("input/all-shakespeare.txt")
 
-  val words = input.map(_.toLowerCase.trim).flatMap(_.split("""[ ]+""")).cache()
+  val words = input
+    .map(_.toLowerCase.trim)
+    .flatMap(_.split("""[ ]+"""))
+    .cache()
 
-  words
+  val result = words
     .filter(!_.isEmpty)
     .keyBy(word => 1).map (_.swap)
     .reduceByKey((a,b) => a + b)
     .sortBy(_._2, ascending = false)
-    .take(100) foreach println
+
+  result take(100) foreach println
 }
