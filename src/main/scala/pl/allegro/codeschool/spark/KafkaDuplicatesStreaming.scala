@@ -3,7 +3,6 @@ package pl.allegro.codeschool.spark
 import org.apache.spark.SparkContext
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.StreamingContext._
-import OfferPublicationStarted.{Price, Name, SellerId, CountryCode}
 
 object Settings {
   val duration = Seconds(10)
@@ -21,12 +20,8 @@ object KafkaDuplicatesStreaming extends App {
   val message = stream.map(OfferPublicationStarted.message)
 
   val result = message.map(OfferPublicationStarted.parse)
-    .filter {
-    case (_, _, CountryCode(countryCode), _, _) => countryCode == "PL"
-  }
-    .map {
-    case (SellerId(sellerId), Name(name), _, _, Price(price)) => (sellerId, name, price)
-  }
+    .filter(_.getOrElse("countryIsoCode", "") == "PL")
+    .map(x => ( ??? )) // Get required fields to perform map/reduce operation
     .map(x => (x, 1))
     .reduceByKeyAndWindow(
       reduceFunc = _ + _,

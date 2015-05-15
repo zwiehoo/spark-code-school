@@ -41,6 +41,9 @@ object Dependency {
   val kafkaStream    = "org.apache.spark"  %% "spark-streaming-kafka" % Version.Spark withSources()
   val scalaTest      = "org.scalatest"     %% "scalatest"       % Version.ScalaTest  % "test"
   val scalaCheck     = "org.scalacheck"    %% "scalacheck"      % Version.ScalaCheck % "test"
+
+  val jacks = "com.lambdaworks" % "jacks_2.10" % "2.5.2"
+
 }
 
 object Dependencies {
@@ -48,7 +51,8 @@ object Dependencies {
 
   val sparkWorkshop =
     Seq(sparkCore, sparkStreaming, //sparkMLlib,
-      scalaTest, scalaCheck, kafkaStream)
+      scalaTest, scalaCheck, kafkaStream, jacks
+    )
 }
 
 object KafkaStreamingBuild extends Build {
