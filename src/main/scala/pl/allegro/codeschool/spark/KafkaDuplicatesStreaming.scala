@@ -21,7 +21,7 @@ object KafkaDuplicatesStreaming extends App {
 
   val result = message.map(OfferPublicationStarted.parse)
     .filter(_.getOrElse("countryIsoCode", "") == "PL")
-    .map(x => ( ??? )) // Get required fields to perform map/reduce operation
+//    .map(x => ( ??? )) // Get required fields to perform map/reduce operation
     .map(x => (x, 1))
     .reduceByKeyAndWindow(
       reduceFunc = _ + _,
