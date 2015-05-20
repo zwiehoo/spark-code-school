@@ -21,9 +21,10 @@ object BuildSettings {
 object Resolvers {
   val typesafe = "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
   val sonatype = "Sonatype Release" at "https://oss.sonatype.org/content/repositories/releases"
+  val pacewicz = "Patryk Pacewicz Rulez" at "https://dl.bintray.com/patrykpacewicz/maven"
   val mvnrepository = "MVN Repo" at "http://mvnrepository.com/artifact"
 
-  val allResolvers = Seq(typesafe, sonatype, mvnrepository)
+  val allResolvers = Seq(typesafe, sonatype, mvnrepository, pacewicz)
 
 }
 
@@ -41,6 +42,8 @@ object Dependency {
   val kafkaStream    = "org.apache.spark"  %% "spark-streaming-kafka" % Version.Spark withSources()
   val scalaTest      = "org.scalatest"     %% "scalatest"       % Version.ScalaTest  % "test"
   val scalaCheck     = "org.scalacheck"    %% "scalacheck"      % Version.ScalaCheck % "test"
+
+  val wikimediaStream = "pl.patrykpacewicz" %% "wikimedia-stream-library" % "0.1.0"
 
   val jacks = "com.lambdaworks" % "jacks_2.10" % "2.5.2"
 
