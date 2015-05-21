@@ -1,5 +1,6 @@
 package pl.allegro.codeschool.spark
 
+import com.lambdaworks.jacks.JacksMapper
 import org.apache.spark.SparkContext
 import org.apache.spark.streaming._
 
@@ -9,7 +10,7 @@ object WikiStreaming extends App {
 
   val ssc: StreamingContext = new StreamingContext(sc, Seconds(10))
 
-  val stream = ssc.socketTextStream("localhost", 8124);
+  val stream = ssc.socketTextStream("localhost", 8124).map(JacksMapper.readValue[Map[String, Any]](_))
 
   stream.print()
 

@@ -43,7 +43,7 @@ object Dependency {
   val scalaTest      = "org.scalatest"     %% "scalatest"       % Version.ScalaTest  % "test"
   val scalaCheck     = "org.scalacheck"    %% "scalacheck"      % Version.ScalaCheck % "test"
 
-  val wikimediaStream = "pl.patrykpacewicz" %% "wikimedia-stream-library" % "0.1.0"
+  val wikimediaStream = "pl.patrykpacewicz" % "wikimedia-stream-library" % "0.1.0"
 
   val jacks = "com.lambdaworks" % "jacks_2.10" % "2.5.2"
 
@@ -54,7 +54,7 @@ object Dependencies {
 
   val sparkWorkshop =
     Seq(sparkCore, sparkStreaming, //sparkMLlib,
-      scalaTest, scalaCheck, kafkaStream, jacks
+      scalaTest, scalaCheck, kafkaStream, jacks, wikimediaStream
     )
 }
 
