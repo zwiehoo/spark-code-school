@@ -30,7 +30,7 @@ object OfferPublicationStarted {
     }
 }
 
-object KafkaDuplicatesStreaming extends App {
+object KafkaStreaming extends App {
     val sc = new SparkContext("local[8]", "kafka-duplicates")
     sc.setCheckpointDir("output/checkpoints")
 
