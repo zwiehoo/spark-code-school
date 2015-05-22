@@ -1,41 +1,50 @@
 package pl.allegro.codeschool.spark
 
+import com.lambdaworks.jacks.JacksMapper
 import org.apache.spark.SparkContext
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.StreamingContext._
+import org.apache.spark.streaming.dstream.ReceiverInputDStream
+import org.apache.spark.streaming.kafka.KafkaUtils
 
 object Settings {
-  val duration = Seconds(10)
-  val windowSize = Seconds(60)
+    val duration = Seconds(10)
+    val windowSize = Seconds(60)
+}
+
+object OfferPublicationStarted {
+    def stream(ssc: StreamingContext): ReceiverInputDStream[(String, String)] = {
+        KafkaUtils.createStream(ssc,
+            "zookeeper.qxlint:2181/external/kasia/kafka",
+            "pl.spark.training.beta",
+            Map("kasia.pl.allegro.offercore.api.offerPublicationStarted" -> 4)
+        )
+    }
+
+    def message(tuple: (String, String)): String = tuple match {
+        case (_, message) => message
+    }
+
+    def parse(message: String): Map[String, Any] = {
+        JacksMapper.readValue[Map[String, Any]](message)
+    }
 }
 
 object KafkaDuplicatesStreaming extends App {
-  val sc = new SparkContext("local[8]", "my-spark-streaming-app")
-  sc.setCheckpointDir("output/checkpointy")
+    val sc = new SparkContext("local[8]", "kafka-duplicates")
+    sc.setCheckpointDir("output/checkpoints")
 
-  val ssc: StreamingContext = new StreamingContext(sc, Settings.duration)
+    val ssc: StreamingContext = new StreamingContext(sc, Settings.duration)
 
-  val stream = OfferPublicationStarted.stream(ssc)
+    OfferPublicationStarted.stream(ssc)
+        .map(OfferPublicationStarted.message)
+        .map(OfferPublicationStarted.parse)
 
-  val message = stream.map(OfferPublicationStarted.message)
+    // TODO: - print stream to analyze offer json structure
+    // TODO: - filter allegro.pl offers only
+    // TODO: - count offers by title
+    // TODO: - apply sliding window mechanism to analyse longer period of time
 
-  val result = message.map(OfferPublicationStarted.parse)
-    .filter(_.getOrElse("countryIsoCode", "") == "PL")
-//    .map(x => ( ??? )) // Get required fields to perform map/reduce operation
-    .map(x => (x, 1))
-    .reduceByKeyAndWindow(
-      reduceFunc = _ + _,
-      invReduceFunc = _ - _,
-      windowDuration = Settings.windowSize
-    )
-    .filter {
-      case (triple, count) => count > 1
-    }
-    .transform(_.sortBy(_._2, ascending = false))
-    .cache
-
-  result.print()
-
-  ssc.start()
-  ssc.awaitTermination()
+    ssc.start()
+    ssc.awaitTermination()
 }
