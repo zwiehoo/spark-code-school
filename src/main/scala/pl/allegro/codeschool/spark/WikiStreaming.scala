@@ -16,8 +16,8 @@ object WikiStreaming extends App {
 
     val stream = ssc
         .socketTextStream("localhost", 8124)
-        .map(JacksMapper.readValue[Map[String, Any]](_))
-        .cache
+        .map(JacksMapper.readValue[Map[String, Any]])
+        .cache()
 
     // TODO: display URLs of 10 most frequently edited pages
     // TODO: filter by count greater than 10

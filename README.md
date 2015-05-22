@@ -14,8 +14,17 @@ WikiStreaming example
 To run WikiStreaming example you must have nodejs installed and run:
 
     $ cd wikichanges
+    
+On OSX run
+
+    $ brew install icu4c
+    
+And then...
+    
+    $ npm install
     $ node wikichanges.js
     server bound
+    ...
 
 I's going to listen on port 8124 and stream wikipedia edit events from IRC channel broadcasts.
 
