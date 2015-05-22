@@ -1,0 +1,14 @@
+{
+  "name": "wikichanges-server",
+  "version": "0.0.0",
+  "description": "",
+  "main": "wikichanges.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "wikichanges": "^0.2.7"
+  }
+}
