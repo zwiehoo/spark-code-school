@@ -3,8 +3,8 @@ import sbt.Keys._
 
 object BuildSettings {
 
-  val Name = "spark-kafka-ml"
-  val Version = "2.1"
+  val Name = "spark-code-school"
+  val Version = "1.0"
   val ScalaVersion = "2.10.5"
 
   lazy val buildSettings = Defaults.coreDefaultSettings ++ Seq (
@@ -12,7 +12,7 @@ object BuildSettings {
     version       := Version,
     scalaVersion  := ScalaVersion,
     organization  := "pl.allegro",
-    description   := "Spark Streaming Kafka Machine Learning",
+    description   := "Spark and Spark Streaming Code School",
     scalacOptions := Seq("-deprecation", "-unchecked", "-encoding", "utf8", "-Xlint")
   )
 }
@@ -21,10 +21,9 @@ object BuildSettings {
 object Resolvers {
   val typesafe = "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
   val sonatype = "Sonatype Release" at "https://oss.sonatype.org/content/repositories/releases"
-  val pacewicz = "Patryk Pacewicz Rulez" at "https://dl.bintray.com/patrykpacewicz/maven"
   val mvnrepository = "MVN Repo" at "http://mvnrepository.com/artifact"
 
-  val allResolvers = Seq(typesafe, sonatype, mvnrepository, pacewicz)
+  val allResolvers = Seq(typesafe, sonatype, mvnrepository)
 
 }
 
@@ -43,8 +42,6 @@ object Dependency {
   val scalaTest      = "org.scalatest"     %% "scalatest"       % Version.ScalaTest  % "test"
   val scalaCheck     = "org.scalacheck"    %% "scalacheck"      % Version.ScalaCheck % "test"
 
-  val wikimediaStream = "pl.patrykpacewicz" % "wikimedia-stream-library" % "0.1.0"
-
   val jacks = "com.lambdaworks" % "jacks_2.10" % "2.5.2"
 
 }
@@ -54,15 +51,15 @@ object Dependencies {
 
   val sparkWorkshop =
     Seq(sparkCore, sparkStreaming, //sparkMLlib,
-      scalaTest, scalaCheck, kafkaStream, jacks, wikimediaStream
+      scalaTest, scalaCheck, kafkaStream, jacks
     )
 }
 
-object KafkaStreamingBuild extends Build {
+object SparkCodeSchoolBuild extends Build {
   import Resolvers._
   import BuildSettings._
 
-  lazy val kafkaStreamingProject = Project(
+  lazy val sparkCodeSchoolProject = Project(
     id = "Kafka-Streaming",
     base = file("."),
     settings = buildSettings ++ Seq(

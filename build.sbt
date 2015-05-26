@@ -1,4 +1,4 @@
-name := "Duble2"
+name := "Spark Code School"
 
 version := "1.0"
 
